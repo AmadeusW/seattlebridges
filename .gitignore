@@ -1,6 +1,8 @@
 nimcache/
 *.exe
 .vscode/
+package-lock.json
+
 # Logs
 logs
 *.log
