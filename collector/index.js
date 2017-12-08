@@ -5,7 +5,7 @@ var twitterConsumerKey = process.env.twitterBridgeKey;
 var twitterConsumerSecret = process.env.twitterBridgeSecret;
 var AccessToken;
 var LastId;
-var requestCount = 2;
+var requestCount = 1;
 
 var oauth2 = new OAuth2(
     twitterConsumerKey,
@@ -56,10 +56,21 @@ var requestTweets = function(lastId) {
 var processTweets = function(tweets) {
     //console.log(tweets);
     tweets.forEach(tweet => {
-        console.log("id: ", tweet.id)
+        //console.log("id: ", tweet.id)
+        console.log("---");
         LastId = tweet.id
         console.log("text", tweet.text)
         console.log("time ", tweet.created_at)
+        // subtract 8 hours
+        var utcCreated = new Date(tweet.created_at)
+        var localTime = new Date(utcCreated.getTime() - utcCreated.getTimezoneOffset() * 60000)
+        console.log("local time", localTime)
+        var nameLength = tweet.text.indexOf(" has ");
+        var name = tweet.text.substring(0, nameLength);
+        var timeIndex = tweet.text.indexOf(" to traffic - ");
+        var tweetedTime = tweet.text.substring(timeIndex + 14);
+        var opened = tweet.text.substring(nameLength + 5, timeIndex);
+        console.log(name, opened, opened == "reopened", tweetedTime)
     });
     if (requestCount-- > 0) {
         console.log("Requesting more...", requestCount)
