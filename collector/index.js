@@ -7,6 +7,11 @@ var twitterConsumerSecret = process.env.twitterBridgeSecret;
 var AccessToken;
 var LastId;
 var requestCount = 1000;
+var lastIdFromParameter;
+
+console.log(process.argv);
+if (process.argv.length == 3)
+    lastIdFromParameter = process.argv[2];
 
 var oauth2 = new OAuth2(
     twitterConsumerKey,
@@ -21,7 +26,10 @@ oauth2.getOAuthAccessToken(
     function (e, accessToken, refreshToken, results){
         console.log('access: ',accessToken);
         AccessToken = accessToken;
-        requestTweets();
+        if (lastIdFromParameter == undefined)
+            requestTweets();
+        else
+            requestTweets(lastIdFromParameter);
     }
 );
 
@@ -45,6 +53,7 @@ var requestTweets = function(lastId) {
             buffer += data;
         });
         result.on('end', function () {
+            console.error(buffer);
             var tweets = JSON.parse(buffer);
             console.log("Processing...");
             processTweets(tweets);
