@@ -1,11 +1,12 @@
 var OAuth2 = require('oauth').OAuth2;
 var https = require('https');
+var fs = require('fs');
 
 var twitterConsumerKey = process.env.twitterBridgeKey;
 var twitterConsumerSecret = process.env.twitterBridgeSecret;
 var AccessToken;
 var LastId;
-var requestCount = 1;
+var requestCount = 1000;
 
 var oauth2 = new OAuth2(
     twitterConsumerKey,
@@ -56,6 +57,7 @@ var requestTweets = function(lastId) {
 var processTweets = function(tweets) {
     //console.log(tweets);
     tweets.forEach(tweet => {
+        if (tweet.id == undefined) throw 'Invalid data'
         //console.log("id: ", tweet.id)
         LastId = tweet.id
         //console.log("text", tweet.text)
@@ -67,13 +69,19 @@ var processTweets = function(tweets) {
         var nameLength = tweet.text.indexOf(" has ");
         var name = tweet.text.substring(0, nameLength);
         var timeIndex = tweet.text.indexOf(" to traffic - ");
-        //var tweetedTime = tweet.text.substring(timeIndex + 14);
+        var tweetedTime = tweet.text.substring(timeIndex + 14);
         var opened = tweet.text.substring(nameLength + 5, timeIndex);
+        var closedBool = opened == "closed";
         //console.log(name, opened, opened == "reopened", tweetedTime)
         console.log(name, opened, "at", localTime);
+        var data = tweet.id + "," + name + "," + closedBool + "," + localTime.toISOString() + "," + tweetedTime + "\n"
+        fs.appendFile("tweets.csv", data, function (err) {
+            if (err) throw err;
+            console.log(data);
+        });
     });
     if (requestCount-- > 0) {
-        console.log("Requesting more...", requestCount)
+        console.log("Requesting more. LastId", LastId)
         requestTweets(LastId);
     }
 }
