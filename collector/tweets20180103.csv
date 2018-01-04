@@ -1,3 +1,4 @@
+tweetId,bridge,closed,datetime,time
 948635796856164400,The Fremont Bridge,false,2018-01-03T11:22:53.000Z,11:22:48 AM
 948634597096505300,The University Bridge,false,2018-01-03T11:18:07.000Z,11:18:05 AM
 948634217373564900,The Fremont Bridge,true,2018-01-03T11:16:36.000Z,11:16:35 AM
@@ -10,11 +11,9 @@
 948622125367111700,The Montlake Bridge,false,2018-01-03T10:28:33.000Z,10:28:28 AM
 948621346656759800,The Montlake Bridge,true,2018-01-03T10:25:28.000Z,10:25:23 AM
 948620230833578000,The Lower Spokane St Bridge,true,2018-01-03T10:21:02.000Z,10:20:57 AM
-948617678373072900,,false,2018-01-03T10:10:53.000Z,ic: Signal issues at the Fremont Bridge are now fixed.
 948616973650337800,The Fremont Bridge,false,2018-01-03T10:08:05.000Z,10:08:02 AM
 948615649143636000,The Fremont Bridge,true,2018-01-03T10:02:49.000Z,10:02:46 AM
 948611258550386700,The Fremont Bridge,false,2018-01-03T09:45:23.000Z,9:45:20 AM
-948609186585198600,,false,2018-01-03T09:37:09.000Z,ic: Signal issues at the Fremont Bridge are causing delays in the area. Please use alternate routes and expect delays. Crews a…
 948606300425826300,The 1st Ave S Bridge,false,2018-01-03T09:25:40.000Z,9:25:39 AM
 948603484621832200,The 1st Ave S Bridge,true,2018-01-03T09:14:29.000Z,9:14:27 AM
 948600479696658400,The Fremont Bridge,true,2018-01-03T09:02:33.000Z,9:02:31 AM
