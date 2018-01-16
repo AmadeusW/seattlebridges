@@ -11,6 +11,16 @@ def load(filename):
             if (i > 10):
                 return
 
+indices = {
+    "The Ballard Bridge": 0,
+    "The Fremont Bridge": 1,
+    "The University Bridge": 2,
+    "The Montlake Bridge": 3,
+    "The Lower Spokane St Bridge": 4,
+    "The 1st Ave S Bridge": 5,
+    "The South Park Bridge": 6
+}
+
 class State(object):
     """Stores state pertinent to the currently processed node"""
 
@@ -27,10 +37,10 @@ class State(object):
         print(quarter, recentBridgeEncoding)
 
     def getRecentBridgeEncoding(self, currentTime):
-        names = list()
+        names = [0] * len(indices)
         for name, time in self.recentBridgeOpening.items():
             if (time > currentTime - timedelta(minutes=15)):
-                names.append(name)
+                names[indices[name]] = 1
         return names
 
 state = State()
