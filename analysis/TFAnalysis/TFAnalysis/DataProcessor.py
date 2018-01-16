@@ -28,9 +28,11 @@ class State(object):
 
     def update(self, row):
         print(row)
+        # todo: use either bridge open or bridge close notifications, but not both
         time = datetime.strptime(row['datetime'], '%Y-%m-%dT%H:%M:%S.000Z')
 
         quarter = time.minute // 15 + time.hour * 4
+        dayOfWeek = time.weekday() # todo: instead, encode whether its a holiday or not
         recentBridgeEncoding = self.getRecentBridgeEncoding(time)
         self.recentBridgeOpening[row['bridge']] = time
 
