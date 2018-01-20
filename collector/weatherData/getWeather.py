@@ -19,7 +19,6 @@ def getWeatherData(year, month, day):
     testfile.retrieve(url, dataLocation + "{0}{1}{2}.{3}".format(year, month, day, dataExtension))
 
 def getEarliestData(path):
-    f = []
     for (dirpath, dirnames, filenames) in os.walk(path):
         for filename in filenames:
             if (filename.endswith("."+dataExtension)):
@@ -36,6 +35,9 @@ def getNextDate(year, month, day):
     nextDate = thisDate - timedelta(days=1)
     return [nextDate.strftime("%y"), nextDate.strftime("%m"), nextDate.strftime("%d")]
 
-earliestDate = getEarliestData(dataLocation)
-nextDate = getNextDate(earliestDate[0], earliestDate[1], earliestDate[2])
-getWeatherData(nextDate[0], nextDate[1], nextDate[2])
+def go():
+    earliestDate = getEarliestData(dataLocation)
+    nextDate = getNextDate(earliestDate[0], earliestDate[1], earliestDate[2])
+    getWeatherData(nextDate[0], nextDate[1], nextDate[2])
+
+go()
