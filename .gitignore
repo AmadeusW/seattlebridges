@@ -1,4 +1,5 @@
 analysis/MNIST/
+analysis/TweetData/
 __pycache__/
 *.user
 
