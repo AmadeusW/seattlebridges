@@ -26,6 +26,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TFAnalysis.py" />
+    <Compile Include="tfutils.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Weather.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
