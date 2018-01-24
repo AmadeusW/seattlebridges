@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>e4f36665-b9bd-4dd9-b57d-181697217a54</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>DataProcessor.py</StartupFile>
+    <StartupFile>TFAnalysis.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>..\..\..\</WorkingDirectory>
