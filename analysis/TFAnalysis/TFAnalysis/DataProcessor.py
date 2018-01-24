@@ -133,7 +133,6 @@ def processTweets(filename):
 
         for i, row in enumerate(rows):
             if row['closed'] == 'false': continue
-            if (i > 30): break
             encodedName, encodedData = process(row)
             dataLabels.append(encodedName)
             dataPieces.append(encodedData)

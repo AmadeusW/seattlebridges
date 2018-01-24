@@ -2,6 +2,7 @@ import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 from sklearn.model_selection import train_test_split
 from DataProcessor import processTweets
+from tfutils import tfutils
 '''
 mnist = input_data.read_data_sets('../MNIST', one_hot=True)
 train_images = mnist.train.images
@@ -9,7 +10,13 @@ train_labels = mnist.train.labels
 test_images = mnist.test.images
 test_labels = mnist.test.labels
 '''
+
 fullLabels, fullData = processTweets(r'C:\src\seattlebridges\collector\tweets.csv')
+tfutils.storeData(fullLabels, r'analysis\TweetData\fullLabels.txt')
+tfutils.storeData(fullData, r'analysis\TweetData\fullData.txt')
+
+loadedLabels = tfutils.loadData(r'analysis\TweetData\fullLabels.txt')
+loadedData = tfutils.loadData(r'analysis\TweetData\fullData.txt')
 trainData, testData, trainLabels, testLabels= train_test_split(
     fullData, fullData, test_size=0.33, random_state=42)
 
