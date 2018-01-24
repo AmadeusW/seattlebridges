@@ -1,4 +1,6 @@
 analysis/MNIST/
+__pycache__/
+*.user
 
 nimcache/
 *.exe
