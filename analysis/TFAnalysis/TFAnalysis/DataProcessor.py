@@ -1,7 +1,7 @@
 import csv
 import os
 from datetime import datetime, timedelta
-from Weather import getSampleData
+from Weather import getWeatherDataFromFile
 
 indexBridge = 0
 bridgeData = {
@@ -81,6 +81,12 @@ def encodeTime(time):
     encoding[quarter] = 1
     return encoding
 
+def getWeatherData(time):
+    path = 'collector\\weatherData\\'
+    fileName = datetime.strftime(time, '%y%m%d.json')
+    return getWeatherDataFromFile(os.path.join(path, fileName))
+
+
 class State(object):
     """Stores state pertinent to the currently processed node"""
 
@@ -100,7 +106,6 @@ class State(object):
 
 def process(row):
     print(row)
-    if row['closed'] == 'false': return
 
     time = datetime.strptime(row['datetime'], '%Y-%m-%dT%H:%M:%S.000Z')
     name = row['bridge']
@@ -108,7 +113,7 @@ def process(row):
     nameEncoding = encodeBridgeName(name)
     timeEncoding = encodeTime(time)
     calendarEncoding = encodeCalendarData(time)
-    weatherEncoding = encodeWeatherData(getSampleData())
+    weatherEncoding = encodeWeatherData(getWeatherData(time))
     recentBridgeEncoding = state.updateAndGetRecentBridgeEncoding(name, time)
 
     data = []
@@ -117,18 +122,22 @@ def process(row):
     data.extend(recentBridgeEncoding)
     data.extend(timeEncoding)
 
-    print(nameEncoding)
-    print(data)
+    return nameEncoding, data
 
-def load(filename):
+def processTweets(filename):
+    dataPieces = []
+    dataLabels = []
     with open(filename, 'r') as csvFile:
         reader = csv.DictReader(csvFile)
         rows = list(reader)
+
         for i, row in enumerate(rows):
-            process(row)
-            if (i > 10):
-                return
+            if row['closed'] == 'false': continue
+            encodedName, encodedData = process(row)
+            dataLabels.append(encodedName)
+            dataPieces.append(encodedData)
+    return dataLabels, dataPieces
 
 
 state = State()
-load(r'C:\src\seattlebridges\collector\tweets.csv')
+result = processTweets(r'C:\src\seattlebridges\collector\tweets.csv')

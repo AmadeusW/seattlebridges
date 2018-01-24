@@ -9,6 +9,7 @@ def getApiKey():
         data = json.load(apiFile)
         return data['apiKey']
 
+# For example getWeatherData(2017, 12, 24)
 def getWeatherData(year, month, day):
     apiKey = getApiKey()
     url = 'http://api.wunderground.com/api/{0}/history_{1}{2}{3}/q/WA/seattle.json'.format(apiKey, year, month, day)
@@ -19,8 +20,11 @@ def getWeatherData(year, month, day):
     raw.close()
 
 def getSampleData():
+    return getWeatherDataFromFile('analysis\\SampleWeatherData.json')
+
+def getWeatherDataFromFile(path):
     result = {}
-    with open('analysis\\SampleWeatherData.json', 'r') as dataFile:
+    with open(path, 'r') as dataFile:
         data = json.load(dataFile)
         summary = data['history']['dailysummary'][0]
         result['maxtemperature'] = int(summary['maxtempm'])
@@ -31,6 +35,3 @@ def getSampleData():
         result['rain'] = summary['rain']
         result['visibility'] = int(summary['maxvism'])
         return result
-
-# getWeatherData(2017, 12, 24)
-getSampleData()
