@@ -22,10 +22,10 @@ trainData, testData, trainLabels, testLabels= train_test_split(
 
 graph = tf.Graph()
 with graph.as_default():
-    input = tf.placeholder(tf.float32, shape=(100, 784))
-    labels = tf.placeholder(tf.float32, shape=(100, 10))
+    input = tf.placeholder(tf.float32, shape=(None, 115))
+    labels = tf.placeholder(tf.float32, shape=(None, 7))
 
-    layer1_weights = tf.Variable(tf.random_normal([784, 10]))
+    layer1_weights = tf.Variable(tf.random_normal([115, 7]))
     layer1_bias = tf.Variable(tf.zeros([10]))
 
     logits = tf.matmul(input, layer1_weights) + layer1_bias
