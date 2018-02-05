@@ -1,7 +1,5 @@
-import csv
-import os
+import csv, os, json
 from datetime import datetime, timedelta
-from Weather import getWeatherDataFromFile
 
 indexBridge = 0
 bridgeData = {
@@ -84,8 +82,18 @@ def encodeTime(time):
 def getWeatherData(time):
     path = 'collector\\weatherData\\'
     fileName = datetime.strftime(time, '%y%m%d.json')
-    return getWeatherDataFromFile(os.path.join(path, fileName))
-
+    result = {}
+    with open(os.path.join(path, fileName), 'r') as dataFile:
+        data = json.load(dataFile)
+        summary = data['history']['dailysummary'][0]
+        result['maxtemperature'] = int(summary['maxtempm'])
+        result['meantemperature'] = int(summary['meantempm'])
+        result['mintemperature'] = int(summary['mintempm'])
+        result['fog'] = summary['fog']
+        result['snow'] = summary['snow']
+        result['rain'] = summary['rain']
+        result['visibility'] = int(float(summary['maxvism'])) # string->float->int because there is no conversion from string that represents a float to an int
+        return result
 
 class State(object):
     """Stores state pertinent to the currently processed node"""
