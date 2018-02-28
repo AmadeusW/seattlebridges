@@ -1,3 +1,6 @@
+from array import array
+from numpy import *
+
 class tfutils(object):
     """helper functions"""
     
@@ -14,9 +17,12 @@ class tfutils(object):
         result = []
         with open(path, 'r') as dataFile:
             for line in dataFile:
-                ints = [int(x) for x in line.split(',')]
+                ints = array([int(x) for x in line.split(',')], dtype=int)
                 result.append(ints)
-        return result
 
+        resultArray = ndarray(shape=(len(result), result[0].size), dtype=int) # fuck you len()
+        for i in range(0, len(result)):
+            resultArray[i] = result[i]
+        return resultArray
 
 

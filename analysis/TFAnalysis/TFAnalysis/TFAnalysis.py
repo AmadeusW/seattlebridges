@@ -29,16 +29,48 @@ with graph.as_default():
     learning_rate = 0.01
     optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
 
+    #Add a few nodes to calculate accuracy and optionally retrieve predictions
+    predictions = tf.nn.softmax(logits)
+    correct_prediction = tf.equal(tf.argmax(labels, 1), tf.argmax(predictions, 1))
+    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
     with tf.Session(graph=graph) as session:
         tf.global_variables_initializer().run()
 
         num_steps = 1000
         batch_size = 100
         for step in range(num_steps):
-            offset = (step * batch_size) % (trainLabels.shape[0] - batch_size) # todo: what is shape[0]?
+            offset = (step * batch_size) % (trainLabels.shape[0] - batch_size)
+            # error below: TypeError: list indices must be integers or slices, not tuple
             batch_images = trainData[offset:(offset + batch_size), :]
             batch_labels = trainLabels[offset:(offset + batch_size), :]
             feed_dict = {input: batch_images, labels: batch_labels}
 
-            o, c, = session.run([optimizer, cost], feed_dict=feed_dict)
-            print("Cost: ", c)
+            _, c, acc = session.run([optimizer, cost, accuracy], feed_dict=feed_dict)
+            
+            if step % 100 == 0:
+                print("Cost: ", c)
+                print("Accuracy: ", acc * 100.0, "%")
+
+        
+        # Test
+        num_test_batches = int(testData.shape[1] / 100)
+        total_accuracy = 0
+        total_cost = 0
+        for step in range(num_test_batches):
+            offset = (step * batch_size) % (trainLabels.shape[0] - batch_size)
+            batch_images = loadedData[offset:(offset + batch_size), :]
+            batch_labels = loadedLabels[offset:(offset + batch_size), :]
+            feed_dict = {input: batch_images, labels: batch_labels}
+
+            #Note that we do not pass in optimizer here.
+            c, acc = session.run([cost, accuracy], feed_dict=feed_dict)
+            total_cost = total_cost + c
+            total_accuracy = total_accuracy + acc
+
+        print("Test Cost: ", total_cost / num_test_batches)
+        print("Test accuracy: ", total_accuracy * 100.0 / num_test_batches, "%")
+
+    # TensorBoard visualization
+    merged = tf.summary.merge_all()
+    file_writer = tf.summary.FileWriter('tfLogs', session.graph) # for TensorBoard visualzation
