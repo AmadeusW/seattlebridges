@@ -25,6 +25,9 @@
     <Compile Include="DataProcessor.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="mnistReference.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TFAnalysis.py" />
     <Compile Include="tfutils.py">
       <SubType>Code</SubType>
