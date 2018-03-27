@@ -10,6 +10,7 @@ nimcache/
 .vs/
 
 # Logs
+tfLogs/
 logs
 *.log
 npm-debug.log*
